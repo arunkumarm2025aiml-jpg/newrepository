@@ -1,1 +1,167 @@
-created text one.txt file
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple Quiz App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif; 
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 30px;
+      width: 380px;
+      border-radius: 20px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      border: 2px solid #fff;
+    }
+    .question {
+      font-size: 20px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: #222;
+    }
+    .options label {
+      display: block;
+      background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      font-weight: bold;
+    }
+    .options label:hover {
+      transform: scale(1.03);
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 18px;
+      border: none;
+      background: linear-gradient(135deg, #ff9966, #ff5e62);
+      color: #fff;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: 0.3s;
+      font-weight: bold;
+    }
+    button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #ff6a00, #ee0979);
+    }
+    .score {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+      border-radius: 15px;
+    }
+  </style>
+</head>
+<body background="C:/Users/thiru/Downloads/background.avif" >
+  <div class="container">
+    <div id="quizBox">
+      <div class="question" id="questionText"></div>
+      <div class="options" id="optionsBox"></div>
+      <button onclick="nextQuestion()">Next</button>
+    </div>
+    <div id="result" style="display:none;" class="score"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Which method adds an element to the end of an array?",
+        options: ["push()", "pop()", "shift()", "unshift()"],
+        answer: "push()"
+      },
+      {
+        question: "Which method removes the last element from an array?",
+        options: ["slice()", "pop()", "shift()", "splice()"],
+        answer: "pop()"
+      },
+      {
+        question: "Which method returns the length of an array?",
+        options: ["size", "length", "count", "index"],
+        answer: "length"
+      },
+      {
+        question: "Which method adds an element at the beginning of an array?",
+        options: ["push()", "pop()", "shift()", "unshift()"],
+        answer: "unshift()"
+      },
+      {
+        question: "Which method removes the first element of an array?",
+        options: ["pop()", "shift()", "slice()", "splice()"],
+        answer: "shift()"
+      },
+      {
+        question: "Which method is used to join all elements into a string?",
+        options: ["join()", "concat()", "string()", "merge()"],
+        answer: "join()"
+      },
+      {
+        question: "Which method is used to remove or replace existing elements?",
+        options: ["slice()", "splice()", "map()", "filter()"],
+        answer: "splice()"
+      }
+    ];
+
+    let index = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const q = quizData[index];
+      document.getElementById("questionText").innerText = q.question;
+      const optionBox = document.getElementById("optionsBox");
+      optionBox.innerHTML = "";
+
+      q.options.forEach((opt) => {
+        optionBox.innerHTML += `
+          <label>
+            <input type="radio" name="answer" value="${opt}" />
+            ${opt}
+          </label>`;
+      });
+    }
+
+    function nextQuestion() {
+      const selected = document.querySelector('input[name="answer"]:checked');
+      if (!selected) {
+        alert("Please select an answer!");
+        return;
+      }
+
+      if (selected.value === quizData[index].answer) {
+        score++;
+      }
+
+      index++;
+
+      if (index < quizData.length) {
+        loadQuestion();
+      } else {
+        document.getElementById("quizBox").style.display = "none";
+        document.getElementById("result").style.display = "block";
+        document.getElementById("result").innerHTML = `Your Score: ${score} / ${quizData.length}`;
+      }
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
